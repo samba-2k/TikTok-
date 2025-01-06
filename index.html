@@ -3,59 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Earn with TikTok</title>
+    <title>TikTok Earning Website</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
         }
-        .signup-container {
-            background: white;
+
+        .section {
+            display: none;
             padding: 20px;
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
         }
-        .signup-container h1 {
-            margin-bottom: 20px;
-            font-size: 24px;
+
+        .section.active {
+            display: block;
+        }
+
+        h1 {
+            text-align: center;
             color: #333;
         }
-        input {
+
+        input, button, a {
+            display: block;
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         button {
-            width: 100%;
-            padding: 10px;
             background-color: #28a745;
             color: white;
             border: none;
-            border-radius: 4px;
             font-size: 16px;
         }
+
         button:hover {
             background-color: #218838;
+        }
+
+        .video-list iframe {
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .withdraw-button {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .withdraw-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="signup-container">
+    <!-- Signup Section -->
+    <div id="signup-section" class="section active">
         <h1>Sign Up</h1>
-        <form action="activation.html" method="POST">
-            <input type="text" name="phone" placeholder="Enter your phone number" required>
-            <input type="password" name="password" placeholder="Enter your password" required>
-            <button type="submit">Sign Up</button>
+        <form id="signup-form">
+            <input type="text" id="phone" placeholder="Enter your phone number" required>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <button type="button" onclick="goToActivation()">Sign Up</button>
         </form>
     </div>
+
+    <!-- Activation Section -->
+    <div id="activation-section" class="section">
+        <h1>Activate Your Account</h1>
+        <p>To activate your account, send 200 KES to proceed.</p>
+        <button onclick="redirectToWhatsApp()">Activate via WhatsApp</button>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="section">
+        <h1>Welcome to Your Dashboard</h1>
+        <div class="balance">Balance: KES 0</div>
+        <div class="video-list">
+            <iframe src="https://www.tiktok.com/embed/video/12345" frameborder="0"></iframe>
+            <iframe src="https://www.tiktok.com/embed/video/67890" frameborder="0"></iframe>
+        </div>
+        <a href="#" class="withdraw-button">Withdraw</a>
+    </div>
+
+    <script>
+        function goToActivation() {
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('password').value;
+
+            if (phone && password) {
+                // Navigate to activation section
+                document.getElementById('signup-section').classList.remove('active');
+                document.getElementById('activation-section').classList.add('active');
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        function redirectToWhatsApp() {
+            const phoneNumber = "+254103361419";
+            const message = "Hello, I would like to activate my account.";
+            window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        }
+
+        // Example: Navigating to the dashboard after activation
+        // Replace this with actual validation logic
+        document.getElementById('activation-section').addEventListener('click', function() {
+            document.getElementById('activation-section').classList.remove('active');
+            document.getElementById('dashboard-section').classList.add('active');
+        });
+    </script>
 </body>
 </html>
